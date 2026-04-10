@@ -28,20 +28,21 @@ function QuestionComponent() {
 
   // ✅ Delete handler
   const handleDelete = async (id) => {
-    try {
-      await fetch(`${BASE_URL}/tasks/${id}`, {
-        method: 'DELETE',
-      });
+  const confirmDelete = window.confirm("Are you sure you want to delete this task?");
 
-      // ✅ Update UI immediately
-      setTasks((prev) => prev.filter((task) => task.id !== id));
+  if (!confirmDelete) return;
 
-      // ✅ Redirect
-      navigate('/tasks');
-    } catch (error) {
-      console.error("Error deleting task:", error);
-    }
-  };
+  try {
+    await fetch(`${BASE_URL}/tasks/${id}`, {
+      method: 'DELETE',
+    });
+
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+    navigate('/tasks');
+  } catch (error) {
+    console.error("Error deleting task:", error);
+  }
+};
 
   return (
     <div>
