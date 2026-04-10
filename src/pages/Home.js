@@ -8,10 +8,13 @@ const LAB_ID = 'FSD_LAB';
 function Home() {
   return (
     <div>
-      <h1>Stack Track Lab</h1>
+      <h1 style={{ color: 'blue' }}>Stack Track Lab</h1>
 
-      <p>Student ID: {STUDENT_ID}</p>
-      <p>Lab ID: {LAB_ID}</p>
+      {/* ✅ New change */}
+      <h3>Welcome to Task Management System</h3>
+
+      <p><b>Student ID:</b> {STUDENT_ID}</p>
+      <p><b>Lab ID:</b> {LAB_ID}</p>
 
       {/* ✅ Your Question Component */}
       <QuestionComponent />
