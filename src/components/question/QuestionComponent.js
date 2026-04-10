@@ -1,24 +1,67 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-// TODO: Import any API functions you need from '../../api/client'
-// Example: import { get, post } from '../../api/client';
+// You can use BASE_URL if you created it
+const BASE_URL = "http://localhost:5000/api";
 
 function QuestionComponent() {
-  // TODO: Define state variables needed for your question set
-  
+  // ✅ State
+  const [tasks, setTasks] = useState([]);
 
-  // TODO: Implement data fetching inside a useEffect hook
-  
+  // ✅ Navigation
+  const navigate = useNavigate();
 
-  // TODO: Implement any event handlers required by your question set
-  
+  // ✅ Fetch tasks
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/tasks`);
+        const data = await res.json();
+        setTasks(data);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
+  // ✅ Delete handler
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`${BASE_URL}/tasks/${id}`, {
+        method: 'DELETE',
+      });
+
+      // ✅ Update UI immediately
+      setTasks((prev) => prev.filter((task) => task.id !== id));
+
+      // ✅ Redirect
+      navigate('/tasks');
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
 
   return (
     <div>
-      {/* TODO: Replace this placeholder with your question set UI */}
-      <p>QuestionComponent placeholder — implement your assigned question set here.</p>
+      <h2>Task List</h2>
 
-      {/* TODO: Render fetched data or form elements as required */}
+      {tasks.length === 0 ? (
+        <p>No tasks available</p>
+      ) : (
+        <ul>
+          {tasks.map((task) => (
+            <li key={task.id}>
+              {task.title}
+
+              <button onClick={() => handleDelete(task.id)}>
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

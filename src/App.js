@@ -1,13 +1,23 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import Home from './pages/Home';
+import QuestionPage from './pages/QuestionPage';
 
 function App() {
   return (
-    <div>
-      <Home />
+    <Router>
+      <Routes>
+        {/* ✅ Home Page */}
+        <Route path="/" element={<Home />} />
 
-      {/* TODO: Replace this placeholder with Routes */}
-    </div>
+        {/* ✅ Question Page */}
+        <Route path="/question" element={<QuestionPage />} />
+
+        {/* ✅ Tasks Page (for redirect after delete) */}
+        <Route path="/tasks" element={<div>Tasks Page</div>} />
+      </Routes>
+    </Router>
   );
 }
 
